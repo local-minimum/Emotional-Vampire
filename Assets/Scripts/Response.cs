@@ -19,6 +19,24 @@ public class Response : MonoBehaviour
 
     GameObject selectionFrame;
 
+    public string KeyName
+    {
+        get
+        {
+            switch (key)
+            {
+                case KeyCode.Alpha1:
+                    return "1";
+                case KeyCode.Alpha2:
+                    return "2";
+                case KeyCode.Alpha3:
+                    return "3";
+                default:
+                    return key.ToString();
+            }
+        }
+    }
+
     private void Awake()
     {
         text = GetComponent<TextMeshProUGUI>();
@@ -28,7 +46,7 @@ public class Response : MonoBehaviour
     public void Set(JokeResponse response)
     {
         selectionFrame.SetActive(false);
-        text.text = $"({key.ToString()}) {response.text}";
+        text.text = $"({KeyName}) {response.text}";
         correctAnswer = response.isValid;
     }
 
