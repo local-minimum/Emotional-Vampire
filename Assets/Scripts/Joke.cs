@@ -28,10 +28,15 @@ public struct JokeData
     public JokeResponse response2;
     public JokeResponse response3;
     public float responseTime;
+    public int power;
 }
+
+public delegate void JokedEvent(int score);
 
 public class Joke : MonoBehaviour
 {
+    public event JokedEvent OnJoked;
+
     [SerializeField]
     List<JokeData> jokes = new List<JokeData>();
 
@@ -75,10 +80,10 @@ public class Joke : MonoBehaviour
         switch (responseType)
         {
             case ResponseType.CORRECT:
-                Debug.Log("WIN");
+                OnJoked?.Invoke(currentJoke.power);
                 break;
             case ResponseType.INCORRECT:
-                Debug.Log("LOOSE");
+                OnJoked?.Invoke(-currentJoke.power);
                 break;
         }
         progress.FreezeProgress();
@@ -141,7 +146,7 @@ public class Joke : MonoBehaviour
 
     private void JokeOut()
     {
-        jokePhase = JokePhase.NONE;
+        jokePhase = JokePhase.NONE;       
         gameObject.SetActive(false);
     }
 }
