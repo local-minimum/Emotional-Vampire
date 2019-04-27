@@ -17,13 +17,17 @@ public class Response : MonoBehaviour
     [SerializeField]
     KeyCode key;
 
+    GameObject selectionFrame;
+
     private void Awake()
     {
         text = GetComponent<TextMeshProUGUI>();
+        selectionFrame = transform.GetChild(0).gameObject;
     }
 
     public void Set(JokeResponse response)
     {
+        selectionFrame.SetActive(false);
         text.text = $"({key.ToString()}) {response.text}";
         correctAnswer = response.isValid;
     }
@@ -38,6 +42,7 @@ public class Response : MonoBehaviour
 
     public void Emit()
     {
+        selectionFrame.SetActive(true);
         OnResponse?.Invoke(correctAnswer ? ResponseType.CORRECT : ResponseType.INCORRECT);
     }
 }
